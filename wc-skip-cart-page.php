@@ -29,3 +29,34 @@ add_filter( 'woocommerce_product_add_to_cart_text', 'Wc_ButtonNext_Cart' );
 function Wc_ButtonNext_Cart() {
     return __( 'Buy ', 'woocommerce' );
 }
+
+/* WooCommerce: The Code Below Removes The Additional Information Tab */
+add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+
+/**
+ * WooCommerce: The Code Below Removes The Additional Information Tab
+ * @param $tabs 
+ * @return
+ */
+function woo_remove_product_tabs( $tabs ) {
+	unset( $tabs['additional_information'] );
+	return $tabs;
+}
+
+/**
+ * Update Bill Field Strings
+ * @param   $translated_text 
+ * @param   $text            
+ * @param   $domain          
+ * @return  
+ */
+function wc_billing_field_strings( $translated_text, $text, $domain ) {
+	switch ( $translated_text ) {
+		case 'Billing details' :
+			$translated_text = __( 'Enter Below Details', 'woocommerce' );
+		break;
+	}
+	return $translated_text;
+}
+
+add_filter( 'gettext', 'wc_billing_field_strings', 20, 3 );
